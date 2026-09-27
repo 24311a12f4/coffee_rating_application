@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vote for your favourite coffee and see live rankings update instantly." />
+  <title>☕ Coffee Rating App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+  <header class="hero">
+    <div class="hero-inner">
+      <span class="hero-icon">☕</span>
+      <h1>Coffee Rating App</h1>
+      <p class="hero-sub">Cast your vote for the brew you love most — results update live!</p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ── COFFEE GRID ──────────────────────────────────────────────────── -->
+    <section class="section" id="coffee-grid-section">
+      <h2 class="section-title">Pick Your Favourite Brew</h2>
+      <div class="grid" id="coffee-grid">
+        <% coffees.forEach(coffee => { %>
+        <article class="card" id="card-<%= coffee.id %>" data-id="<%= coffee.id %>">
+          <div class="card-emoji"><%= emojiFor(coffee.name) %></div>
+          <h3 class="card-name"><%= coffee.name %></h3>
+          <p class="card-desc"><%= coffee.description %></p>
+          <div class="card-footer">
+            <span class="vote-count" id="votes-<%= coffee.id %>">
+              <strong><%= coffee.votes %></strong>
+              <%= coffee.votes === 1 ? 'vote' : 'votes' %>
+            </span>
+            <button
+              class="btn-vote"
+              id="btn-<%= coffee.id %>"
+              data-id="<%= coffee.id %>"
+              aria-label="Vote for <%= coffee.name %>"
+            >
+              👍 Vote
+            </button>
+          </div>
+          <div class="toast" id="toast-<%= coffee.id %>" role="status" aria-live="polite"></div>
+        </article>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- ── LEADERBOARD ──────────────────────────────────────────────────── -->
+    <section class="section leaderboard-section" id="leaderboard-section">
+      <h2 class="section-title">🏆 Top-Rated Coffees</h2>
+      <ol class="leaderboard" id="leaderboard">
+        <% coffees.forEach((coffee, index) => { %>
+        <li class="lb-item" id="lb-<%= coffee.id %>">
+          <span class="lb-rank"><%= index + 1 %></span>
+          <span class="lb-name"><%= coffee.name %></span>
+          <span class="lb-emoji"><%= emojiFor(coffee.name) %></span>
+          <span class="lb-votes" id="lb-votes-<%= coffee.id %>">
+            <strong><%= coffee.votes %></strong> <%= coffee.votes === 1 ? 'vote' : 'votes' %>
+          </span>
+        </li>
+        <% }) %>
+      </ol>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Made with ☕ &amp; ❤️ — Coffee Rating App &copy; 2024</p>
+  </footer>
+
+  <script src="/script.js"></script>
+
+  <%# Helper function injected server-side — fallback if JS is disabled %>
+  <script>
+    // Defined server-side via EJS locals; nothing needed here.
+  </script>
+</body>
+</html>
